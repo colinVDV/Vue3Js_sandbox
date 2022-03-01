@@ -5,21 +5,84 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Learning View</title>
     <script src="https://unpkg.com/vue@3.0.2"></script>
+    <style>
+        body{
+            background: #eee;
+            max-width: 960px;
+            margin:20px auto;
+        }
+        .box {
+            padding: 100px 0;
+            width: 400px;
+            text-align: center;
+            background: #ddd;
+            margin: 20px;
+            display: inline-block;
+        }
+
+        p, h3, ul{
+            margin: 0;
+            padding:0;
+        }
+
+        li {
+            list-style: none;
+            list-style-type: none;
+            padding: 10px;
+            margin:20px 20px;
+            background: #fff;
+            border-radius: 10px;
+            align-items: center;
+            justify-content: space-between;
+            display: flex;
+        }
+        li.fav {
+            background-color: rgba(238, 113, 109, 0.808);
+        }
+        img {
+            width: 70px;
+        }
+    </style>
 </head>
 <body>
     <h1>Hello Vue3</h1>
     <div id="app">
-        <h3 v-show="showBooks">currently showing books</h3>
-        <div v-if="showBooks">
-            <p>{{title}} - {{author}} - {{age}}</p>
-            <button @click="age+=1">increase age</button>
-            <button @click="decreaseAge()">decrease age</button>
-            <button @click="changeTitle('new title')">change title</button>
+        <a v-bind:href="url">Best search engine</a>
+        <div v-show="showBooks">
+            <ul>
+                <li v-for="book in books" :class="{fav: book.isFav}">
+                    <img v-bind:src="book.img" :alt = "book.title">
+                    <h3>{{book.title}}</h3> {{book.author}}
+                    <button @click="toggleFav($event, book)">
+                        <span v-if="book.isFav">remove favorite</span>
+                        <span v-else>add favorite</span>
+                    </button>
+                </li>
+            </ul>
+            
         </div>
         <button @click="toggleShowBooks()">
             <span v-if="showBooks">Hide Books</span>
             <span v-else>Show Books</span>
         </button>
+
+        <div>
+            <h2>Favorites</h2>
+            <ul>
+                <li v-for="book in filteredBooks" :class="{fav: book.isFav}">
+                    <img v-bind:src="book.img" :alt = "book.title">
+                    <h3>{{book.title}}</h3> {{book.author}}
+                </li>
+            </ul>
+            
+        </div>
+
+        <br>
+        <div class="box" @mouseover="handleEvent">mouseover (enter)</div>
+        <div class="box" @mouseleave="handleEvent" >mouseleave</div>
+        <div class="box" @dblclick="handleEvent">double click</div>
+        <div class="box" @mousemove = "handleMouseMove">({{x}},{{y}})</div>
+
     </div>
 
 
